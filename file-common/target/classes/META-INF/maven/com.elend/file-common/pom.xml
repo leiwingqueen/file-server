@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+		<artifactId>file</artifactId>
+		<groupId>com.elend</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+ 		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>file-common</artifactId>
+	<description>文件服务公共模块</description>
+	<build>  
+    	<plugins>  
+      		<plugin>  
+			    <groupId>com.elend.maven</groupId>  
+			    <artifactId>maven-code-generate-plugin</artifactId>  
+			    <version>2.0</version>  
+      		</plugin>  
+    	</plugins>  
+  	</build>
+  	<profiles>  
+        <profile>  
+             <id>code-generate-profile</id>  
+             <properties>  
+                  <url>jdbc:mysql://mysql.elend.gzdai.com:6033/elend?useUnicode=true&amp;amp;characterEncoding=utf8&amp;amp;autoReconnect=true</url>  
+                  <username>elend</username>  
+                  <password>Tv35Rx6+</password>  
+                  <tableName>file_manage</tableName>
+                  <packageName>com.elend.p2p.test</packageName> 
+                  <searchParams>file_id</searchParams>
+                   
+                  <mapperFlag>false</mapperFlag> 
+                  <mybatisXmlFlag>false</mybatisXmlFlag> 
+                  <serviceFlag>false</serviceFlag> 
+                  <serviceImplFlag>false</serviceImplFlag> 
+                  <modelFlag>false</modelFlag> 
+                  <voFlag>false</voFlag> 
+                  <searchVoFlag>true</searchVoFlag> 
+                  <controllerFlag>false</controllerFlag> 
+             </properties>  
+        </profile>  
+ 	</profiles>
+	<dependencies>		
+	</dependencies>
+</project>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- "namespace" must be the path of interface, or show error “is not known to the MapperRegistry” when launch -->
+<mapper namespace="com.elend.p2p.file.mapper.FileManageMapper">
+	
+	<!-- "id" must be as same as method name of the interface -->
+	<select id="list" resultType="fileManageVO" parameterType="fileManageSearchVO" useCache="false">
+		<![CDATA[select * from file_manage ]]>
+		<where>
+			del=0 
+			<if test="fileMd5 != null and fileMd5 != ''" >
+				and file_md5=#{fileMd5}
+			</if>
+			<if test="appId != null and appId != ''" >
+				and app_id=#{appId} 
+			</if>
+			<if test="fileId != null and fileId >0" >
+				and file_id=#{fileId} 
+			</if>
+		</where>
+		ORDER BY file_id DESC 
+		<![CDATA[ LIMIT #{start} , #{size}  ]]>
+	</select>
+	
+	<select id="count" resultType="int" parameterType="fileManageSearchVO" useCache="false">
+		<![CDATA[select count(*) as num from file_manage ]]>
+		<where>
+			del=0 
+			<if test="fileMd5 != null and fileMd5 != ''" >
+				and file_md5=#{fileMd5}
+			</if>
+			<if test="appId != null and appId != ''" >
+				and app_id=#{appId} 
+			</if>
+			<if test="fileId != null and fileId >0" >
+				and file_id=#{fileId} 
+			</if>
+		</where>
+	</select>
+	
+	<select id="get" resultType="fileManageVO" parameterType="long" useCache="true">
+		<![CDATA[
+			select * from file_manage where file_id = #{fileId} and del=0
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType="fileManage" flushCache="true">
+		<![CDATA[
+			insert into file_manage set
+							partition_id=#{partitionId},
+									file_name=#{fileName},
+									file_md5=#{fileMd5},
+									org_name=#{orgName},
+									path=#{path},
+									app_id=#{appId},
+									create_time=now(),
+									creator=#{creator},
+									size=#{size},
+									del=0,
+									last_update=now(),
+									encrypt=#{encrypt},
+									file_type=#{fileType}
+					]]>
+		<selectKey resultType="int" keyProperty="fileId" order="AFTER"> 
+	        <![CDATA[SELECT LAST_INSERT_ID() AS fileId ]]>
+		</selectKey>
+	</insert>
+    
+	<update id="update" parameterType="fileManage" flushCache="true">
+		<![CDATA[
+			update file_manage set
+							partition_id=#{partitionId},
+									file_name=#{fileName},
+									file_md5=#{fileMd5},
+									org_name=#{orgName},
+									path=#{path},
+									app_id=#{appId},
+									create_time=now(),
+									creator=#{creator},
+									size=#{size},
+									last_update=now(),
+									encrypt=#{encrypt} 
+				where file_id = #{fileId}
+		]]>
+	</update>
+    
+	<delete id="delete" parameterType="long">
+		<![CDATA[
+			delete from file_manage where file_id=#{fileId}
+		]]>
+	</delete>
+	
+	<update id="logicDelete" parameterType="fileManage">
+		<![CDATA[
+			update file_manage set
+									path=#{path},
+									last_update=now(),
+									del=1 
+				where file_id = #{fileId}
+		]]>
+	</update>
+</mapper>
